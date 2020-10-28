@@ -77,7 +77,7 @@ const nuevoCliente = async (req = request, res = response) => {
 
                 res.json({
                     ok: false,
-                    data: 'Este Email ya está registrado a una cuenta'
+                    data: 'Este Email ya está registrado a una cuenta'//
                 });
                 return;
             }
