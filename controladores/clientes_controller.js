@@ -69,15 +69,16 @@ const nuevoCliente = async (req = request, res = response) => {
 
     try {
 
-        if(req.body.nombre && req.body.telefono && req.body.email && req.body.clave) {
+        if(req.body.nombre && req.body.telefono && req.body.email && req.body.clave
+            && req.body.direccion && req.body.referencia && req.body.coordenadas) {
 
             let client = await verificarEmail(req.body.email);
 
-            if(client) {
+            if(client) {//
 
                 res.json({
                     ok: false,
-                    data: 'Este Email ya está registrado a una cuenta'//
+                    data: 'Este Email ya está registrado a una cuenta'
                 });
                 return;
             }
@@ -85,6 +86,15 @@ const nuevoCliente = async (req = request, res = response) => {
             let newCliente = await registroCliente(req.body);
 
             if(newCliente) {
+
+                let datosDireccion = {
+                    id_cliente: newCliente.id_cliente,
+                    direccion: req.body.direccion, 
+                    referencia: req.body.referencia, 
+                    coordenadas: req.body.coordenadas
+                };
+
+                await registroDireccion(datosDireccion);
 
                 res.json({
                     ok: true,
@@ -149,8 +159,17 @@ const registroCliente = async ({nombre, telefono, email, clave}) => {
     return new Promise((resolve, reject) => {
         connection.query('INSERT INTO clientes (nombre, telefono, email, clave) VALUES (?, ?, ?, ?)', [nombre, telefono, email, md5(clave)], (error, data) => {
             if(error) reject(error);
-            //resolve(`Bienvenido ${nombre}!`);
             resolve({nombre, telefono, email, clave});
+        });
+    });
+}
+
+const registroDireccion = async ({id_cliente, direccion, referencia, coordenadas}) => {
+    
+    return new Promise((resolve, reject) => {
+        connection.query('INSERT INTO direcciones_clientes (id_cliente, direccion, referencia, coordenadas) VALUES (?, ?, ?, ?)', [id_cliente, direccion, referencia, coordenadas], (error, data) => {
+            if(error) reject(error);
+            resolve({id_cliente, direccion, referencia, coordenadas});
         });
     });
 }
