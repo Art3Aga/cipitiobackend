@@ -74,7 +74,7 @@ const nuevoCliente = async (req = request, res = response) => {
 
             let client = await verificarEmail(req.body.email);
 
-            if(client) {//
+            if(client) {////
 
                 res.json({
                     ok: false,
