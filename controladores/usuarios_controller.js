@@ -1,5 +1,6 @@
 const { request, response } = require('express');
 const { connection } = require('../base_datos/config');
+const usuario = require('../modelos/usuario');
 //const Usuario  = require('../modelos/usuario');
 
 
@@ -7,7 +8,7 @@ const listaRepartidores = async (req = request, res = response) => {
 
     try {
         
-        let users_repartidores = await repartidores();
+        let users_repartidores = await usuario.find({ rol: 'Repartidor' });
 
         res.json({
             ok: true,

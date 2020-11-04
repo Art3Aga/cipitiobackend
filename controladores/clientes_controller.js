@@ -1,17 +1,19 @@
 const { request, response } = require('express');
 const md5 = require('md5');
 const { connection } = require('../base_datos/config');
+const Cliente = require('../modelos/cliente_model');
+
 
 
 const listaClientes = async (req = request, res = response) => {
 
     try {
         
-        let lista = await clientes();
+        let listaClients = await Cliente.find({});
 
         res.json({
             ok: true,
-            clientes: lista
+            clientes: listaClients
         })
 
     } catch (error) {
