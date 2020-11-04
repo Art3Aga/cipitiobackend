@@ -17,8 +17,6 @@ connection.connect((error) => {
     console.log('DB Online!');
 });
 
-connection.end();
-
 
 module.exports = {
     connection
