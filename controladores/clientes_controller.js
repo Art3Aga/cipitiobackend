@@ -18,7 +18,7 @@ const listaClientes = async (req = request, res = response) => {
         })
 
     } catch (error) {
-        res.status(500).json({
+        res.json({
             ok: false,
             mensaje: error
         });
@@ -63,7 +63,7 @@ const loginCliente = async (req = request, res = response) => {
 
 
     } catch (error) {
-        res.status(500).json({
+        res.json({
             ok: false,
             mensaje: error
         });
@@ -116,7 +116,7 @@ const nuevoCliente = async (req = request, res = response) => {
         });
 
     } catch (error) {
-        res.status(500).json({
+        res.json({
             ok: false,
             mensaje: error
         });
@@ -158,7 +158,7 @@ const nuevaDireccion = async (req = request, res = response) => {
         });
         
     } catch (error) {
-        res.status(500).json({
+        res.json({
             ok: false,
             mensaje: error
         });
