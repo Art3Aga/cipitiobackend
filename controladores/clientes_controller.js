@@ -170,7 +170,7 @@ const direccionesByCliente = async (req = request, res = response) => {
 
     try {
         
-        const { id_cliente } = req.body;
+        const { id_cliente } = req.params;
 
         if(id_cliente) {
 
@@ -203,5 +203,6 @@ module.exports = {
     listaClientes,
     nuevoCliente,
     loginCliente,
-    nuevaDireccion
+    nuevaDireccion,
+    direccionesByCliente
 }
