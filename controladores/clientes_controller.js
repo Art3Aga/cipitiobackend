@@ -2,6 +2,7 @@ const { request, response } = require('express');
 const md5 = require('md5');
 const { connection } = require('../base_datos/config');
 const Cliente = require('../modelos/cliente_model');
+const Direccion = require('../modelos/direccion_model');
 
 
 
@@ -40,7 +41,7 @@ const loginCliente = async (req = request, res = response) => {
             let cliente = await Cliente.findOne({ email, clave });
 
             if(cliente) {
-                
+
                 res.json({
                     ok: true,
                     cliente
@@ -125,78 +126,51 @@ const nuevoCliente = async (req = request, res = response) => {
 
 
 
+const nuevaDireccion = async (req = request, res = response) => {
 
+    try {
 
+        const { id_cliente, direccion, referencia, coordenadas } = req.body;
 
+        if(id_cliente, direccion, referencia, coordenadas) {
 
+            let direccion = new Direccion(req.body);
+            let newDirection = await direccion.save();
 
+            if(newDirection) {
+                res.json({
+                    ok: true,
+                    direccion: newDirection
+                });
+            }
+            else {
+                res.json({
+                    ok: false,
+                    data: 'Error al Registrar Direccion!'
+                });
+            }
 
-
-
-
-
-
-
-
-
-
-const clientes = async () => {
-    
-    return new Promise((resolve, reject) => {
-        connection.query('SELECT * FROM clientes', (error, data) => {
-            if(error) reject(error);
-            resolve(data);
+            return;
+        }
+        res.json({
+            ok: false,
+            data: 'Faltan Datos'
         });
-    });
+        
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            mensaje: error
+        });
+    }
+
 }
 
-
-
-const registroCliente = async ({nombre, telefono, email, clave}) => {
-    
-    return new Promise((resolve, reject) => {
-        connection.query('INSERT INTO clientes (nombre, telefono, email, clave) VALUES (?, ?, ?, ?)', [nombre, telefono, email, md5(clave)], (error, data) => {
-            if(error) reject(error);
-            resolve({nombre, telefono, email, clave});
-        });
-    });
-}
-
-const registroDireccion = async ({id_cliente, direccion, referencia, coordenadas}) => {
-    
-    return new Promise((resolve, reject) => {
-        connection.query('INSERT INTO direcciones_clientes (id_cliente, direccion, referencia, coordenadas) VALUES (?, ?, ?, ?)', [id_cliente, direccion, referencia, coordenadas], (error, data) => {
-            if(error) reject(error);
-            resolve({id_cliente, direccion, referencia, coordenadas});
-        });
-    });
-}
-
-
-const verificarCliente = async ({email, clave}) => {
-    
-    return new Promise((resolve, reject) => {
-        connection.query('SELECT * FROM clientes WHERE email = ? AND clave = ?', [email, md5(clave)], (error, data) => {
-            if(error) reject(error);
-            resolve(data[0]);
-        });
-    });
-}
-
-
-const verificarEmail = async (email) => {
-    
-    return new Promise((resolve, reject) => {
-        connection.query('SELECT * FROM clientes WHERE email = ?', email, (error, data) => {
-            if(error) reject(error);
-            resolve(data[0]);
-        });
-    });
-}
 
 
 module.exports = {
     listaClientes,
     nuevoCliente,
-    loginCliente
+    loginCliente,
+    nuevaDireccion
 }
