@@ -166,6 +166,37 @@ const nuevaDireccion = async (req = request, res = response) => {
 
 }
 
+const direccionesByCliente = async (req = request, res = response) => {
+
+    try {
+        
+        const { id_cliente } = req.body;
+
+        if(id_cliente) {
+
+            let direcciones = await Direccion.find({ id_cliente });
+
+            res.json({
+                ok: true,
+                direcciones
+            });
+            return;
+        }
+        res.json({
+            ok: false,
+            data: 'Faltan Datos'
+        });
+
+
+    } catch (error) {
+        res.json({
+            ok: false,
+            mensaje: error
+        });   
+    }
+
+}
+
 
 
 module.exports = {
