@@ -9,11 +9,11 @@ const listaClientes = async (req = request, res = response) => {
 
     try {
         
-        let listaClients = await Cliente.find({});
+        let clientesList = await Cliente.find({});
 
         res.json({
             ok: true,
-            clientes: listaClients
+            clientes: clientesList
         })
 
     } catch (error) {
@@ -33,10 +33,14 @@ const loginCliente = async (req = request, res = response) => {
 
         if(req.body.email && req.body.clave) {
 
-            let cliente = await verificarCliente(req.body);
+            req.body.clave = md5(req.body.clave);
+
+            const { email, clave } = req.body;
+
+            let cliente = await Cliente.findOne({ email, clave });
 
             if(cliente) {
-
+                
                 res.json({
                     ok: true,
                     cliente
@@ -71,12 +75,13 @@ const nuevoCliente = async (req = request, res = response) => {
 
     try {
 
-        if(req.body.nombre && req.body.telefono && req.body.email && req.body.clave
-            && req.body.direccion && req.body.referencia && req.body.coordenadas) {
+        if(req.body.nombre && req.body.telefono && req.body.email && req.body.clave) {
 
-            let client = await verificarEmail(req.body.email);
+            req.body.clave = md5(req.body.clave);
 
-            if(client) {////
+            let client = await Cliente.findOne({ email: req.body.email });
+
+            if(client) {
 
                 res.json({
                     ok: false,
@@ -85,22 +90,13 @@ const nuevoCliente = async (req = request, res = response) => {
                 return;
             }
 
-            let newCliente = await registroCliente(req.body);
+            const newCliente = new Cliente(req.body);
+            let clienteRegistrado = await newCliente.save();
 
-            if(newCliente) {
-
-                let datosDireccion = {
-                    id_cliente: newCliente.id_cliente,
-                    direccion: req.body.direccion, 
-                    referencia: req.body.referencia, 
-                    coordenadas: req.body.coordenadas
-                };
-
-                await registroDireccion(datosDireccion);
-
+            if(clienteRegistrado) {
                 res.json({
                     ok: true,
-                    cliente: newCliente
+                    cliente: clienteRegistrado
                 });
             }
             else {
