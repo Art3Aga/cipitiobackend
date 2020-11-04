@@ -132,7 +132,7 @@ const nuevaDireccion = async (req = request, res = response) => {
 
         const { id_cliente, direccion, referencia, coordenadas } = req.body;
 
-        if(id_cliente, direccion, referencia, coordenadas) {
+        if(id_cliente && direccion && referencia && coordenadas) {
 
             let direccion = new Direccion(req.body);
             let newDirection = await direccion.save();
