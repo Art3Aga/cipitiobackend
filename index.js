@@ -5,7 +5,8 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 
 //DB Config
-//const { connection } = require('./base_datos/config');
+const { connection } = require('./base_datos/config');
+connection();
 
 //connection.query
 

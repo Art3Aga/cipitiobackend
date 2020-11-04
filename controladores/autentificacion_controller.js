@@ -53,12 +53,14 @@ const registro = async (req = request, res = response) => {
 
         if(req.body.nombre && req.body.clave && req.body.telefono && req.body.rol) {
 
+            req.body.clave = md5(req.body.clave);
+
             const usuario = new Usuario(req.body);
-            let registrar = await nuevoUsuario(usuario);
-            if(registrar) {
+            let usuarioRegistrado = await usuario.save();
+            if(usuarioRegistrado) {
                 res.json({
                     ok: true,
-                    data: registrar,
+                    data: usuarioRegistrado,
                 });
             }
             else {
@@ -79,7 +81,7 @@ const registro = async (req = request, res = response) => {
     } catch (error) {
         res.status(500).json({
             ok: false,
-            mensaje: 'Error'
+            mensaje: error
         });
     }
     

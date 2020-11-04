@@ -20,6 +20,7 @@
     "forever": "^3.0.2",
     "jsonwebtoken": "^8.5.1",
     "md5": "^2.3.0",
+    "mongoose": "^5.10.11",
     "mysql": "^2.10.2",
     "socket.io": "^2.3.0"
   }
