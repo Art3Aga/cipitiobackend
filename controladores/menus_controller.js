@@ -41,7 +41,7 @@ const nuevoMenu = async (req = request, res = response) => {
 
                 res.json({
                     ok: true,
-                    data: newMenu
+                    menu: newMenu
                 });
             }
             else {
