@@ -172,7 +172,7 @@ const direccionesByCliente = async (req = request, res = response) => {
         
         const { id_cliente } = req.params;
 
-        let direcciones = await Direccion.find({ id_cliente }).sort({ activo: 1 });
+        let direcciones = await Direccion.find({ id_cliente }).sort({ activo: -1 });
 
         res.json({
             ok: true,
