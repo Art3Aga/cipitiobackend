@@ -36,6 +36,49 @@ const nuevoMenu = async (req = request, res = response) => {
 
             let newMenu = await menu.save();
 
+            if(newMenu) {
+
+                res.json({
+                    ok: true,
+                    menu: newMenu
+                });
+            }
+            else {
+                res.json({
+                    ok: false,
+                    data: 'Error al Registrar Menu!'
+                });
+            }
+            return;
+
+        }
+
+        res.json({
+            ok: false,
+            data: 'Faltan Datos'
+        });
+
+    } catch (error) {
+        res.json({
+            ok: false,
+            mensaje: error
+        });
+    }
+
+}
+
+
+const updateMenu = async (req = request, res = response) => {
+
+    try {
+
+        const { id_menu, nombre, descripcion, precio, imagen } = req.body;
+
+        if(id_menu && nombre && descripcion && precio && imagen) {
+
+            let menu = new Menu(req.body);
+
+            let newMenu = await menu.updateOne({ id_menu }, { nombre, descripcion, precio, imagen });
 
             if(newMenu) {
 
@@ -67,6 +110,50 @@ const nuevoMenu = async (req = request, res = response) => {
     }
 
 }
+
+
+const deleteMenu = async (req = request, res = response) => {
+
+    try {
+
+        const { id_menu } = req.body;
+
+        if(id_menu) {
+
+            let menu = new Menu(req.body);
+
+            let menuDeleted = await menu.deleteOne({ id_menu });
+
+            if(menuDeleted) {
+
+                res.json({
+                    ok: true,
+                    menu: 'Menu Borrado Correctamente!'
+                });
+            }
+            else {
+                res.json({
+                    ok: false,
+                    data: 'Error al Registrar Menu!'
+                });
+            }
+            return;
+        }
+
+        res.json({
+            ok: false,
+            data: 'Faltan Datos'
+        });
+
+    } catch (error) {
+        res.json({
+            ok: false,
+            mensaje: error
+        });
+    }
+
+}
+
 
 
 
@@ -111,5 +198,7 @@ const crearMenu = async ({nombre, descripcion, precio, imagen}) => {
 
 module.exports = {
     listaMenus,
-    nuevoMenu
+    nuevoMenu,
+    updateMenu,
+    deleteMenu
 }
