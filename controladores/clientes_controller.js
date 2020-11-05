@@ -1,6 +1,6 @@
 const { request, response } = require('express');
 const md5 = require('md5');
-const { connection } = require('../base_datos/config');
+//const { connection } = require('../base_datos/config');
 const Cliente = require('../modelos/cliente_model');
 const Direccion = require('../modelos/direccion_model');
 
@@ -10,7 +10,7 @@ const listaClientes = async (req = request, res = response) => {
 
     try {
         
-        let clientesList = await Cliente.find({});
+        let clientesList = await Cliente.find({}); //Busca en la coleccion "Clientes" pero al no tener ningun parametro de busqueda retorna todo (SELECT * FROM Clientes)
 
         res.json({
             ok: true,
@@ -38,7 +38,7 @@ const loginCliente = async (req = request, res = response) => {
 
             const { email, clave } = req.body;
 
-            let cliente = await Cliente.findOne({ email, clave });
+            let cliente = await Cliente.findOne({ email, clave }); // Busca solo un item en la coleccion Clientes WHERE email = body_del_post AND clave = body_del_post
 
             if(cliente) {
 
@@ -80,7 +80,7 @@ const nuevoCliente = async (req = request, res = response) => {
 
             req.body.clave = md5(req.body.clave);
 
-            let client = await Cliente.findOne({ email: req.body.email });
+            let client = await Cliente.findOne({ email: req.body.email }); // Busca solo un item en la coleccion Clientes WHERE email = body_del_post
 
             if(client) {
 
@@ -130,12 +130,12 @@ const nuevaDireccion = async (req = request, res = response) => {
 
     try {
 
-        const { id_cliente, direccion, referencia, coordenadas } = req.body;
+        const { id_cliente, direccion, referencia, coordenadas, activo } = req.body;
 
-        if(id_cliente && direccion && referencia && coordenadas) {
+        if(id_cliente && direccion && referencia && coordenadas && activo) {
 
             let direccion = new Direccion(req.body);
-            let newDirection = await direccion.save();
+            let newDirection = await direccion.save(); //Registro en la coleccion Direccions
 
             if(newDirection) {
                 res.json({
@@ -172,19 +172,11 @@ const direccionesByCliente = async (req = request, res = response) => {
         
         const { id_cliente } = req.params;
 
-        if(id_cliente) {
+        let direcciones = await Direccion.find({ id_cliente });
 
-            let direcciones = await Direccion.find({ id_cliente });
-
-            res.json({
-                ok: true,
-                direcciones
-            });
-            return;
-        }
         res.json({
-            ok: false,
-            data: 'Faltan Datos'
+            ok: true,
+            direcciones
         });
 
 

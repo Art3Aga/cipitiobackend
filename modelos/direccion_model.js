@@ -17,6 +17,11 @@ const DireccionSchema = Schema({
     coordenadas: {
         type: String,
         required: true
+    },
+    activo: {
+        type: Boolean,
+        required: true,
+        default: false
     }
 
 });
