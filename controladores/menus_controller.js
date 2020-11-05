@@ -1,20 +1,21 @@
 const { request, response } = require('express');
-const { connection } = require('../base_datos/config');
+//const { connection } = require('../base_datos/config');
+const Menu = require('../modelos/menu_model');
 
 
 const listaMenus = async (req = request, res = response) => {
 
     try {
         
-        let lista = await menus();
+        let menus = await Menu.find({});
 
         res.json({
             ok: true,
-            menus: lista
-        })
+            menus
+        });
 
     } catch (error) {
-        res.status(500).json({
+        res.json({
             ok: false,
             mensaje: 'Error'
         });
@@ -79,7 +80,7 @@ const nuevoMenu = async (req = request, res = response) => {
 
 
 
-const menus = async () => {
+/*const menus = async () => {
     
     return new Promise((resolve, reject) => {
         connection.query('SELECT * FROM menus', (error, data) => {
@@ -99,7 +100,7 @@ const crearMenu = async ({nombre, descripcion, precio, imagen}) => {
             resolve(`${nombre} Registrado Correctamente al Menu!`);
         });
     });
-}
+}*/
 
 
 
