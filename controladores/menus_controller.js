@@ -28,9 +28,14 @@ const nuevoMenu = async (req = request, res = response) => {
 
     try {
 
-        if(req.body.nombre && req.body.descripcion && req.body.precio && req.body.imagen) {
+        const { nombre, descripcion, precio, imagen } = req.body;
 
-            let newMenu = await crearMenu(req.body);
+        if(nombre && descripcion && precio && imagen) {
+
+            let menu = new Menu(req.body);
+
+            let newMenu = await menu.save();
+
 
             if(newMenu) {
 
@@ -55,7 +60,7 @@ const nuevoMenu = async (req = request, res = response) => {
         });
 
     } catch (error) {
-        res.status(500).json({
+        res.json({
             ok: false,
             mensaje: error
         });
