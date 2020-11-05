@@ -30,13 +30,15 @@ const nuevoRepartidor = async (req = request, res = response) => {
 
         if(req.body.nombre && req.body.clave && req.body.telefono && req.body.color) {
 
-            let newRepartidor = await crearRepartidor(req.body);
+            let repartidor = new Usuario(req.body);
+
+            let newRepartidor = await repartidor.save();
 
             if(newRepartidor) {
 
                 res.json({
                     ok: true,
-                    data: newRepartidor
+                    repartidor: newRepartidor
                 });
             }
             else {
@@ -55,7 +57,7 @@ const nuevoRepartidor = async (req = request, res = response) => {
         });
 
     } catch (error) {
-        res.status(500).json({
+        res.json({
             ok: false,
             mensaje: error
         });
