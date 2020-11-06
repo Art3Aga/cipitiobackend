@@ -19,8 +19,8 @@ const OrdenSchema = Schema({
         default: 0.0
     },
     fecha: {
-        type: Date,
-        default: Date.now()
+        type: String,
+        default: `${new Date().getDate()}/${new Date().getMonth() + 1}/${new Date().getFullYear()} ${new Date().getHours()}:${new Date().getMinutes()}`
     }
 
 });
