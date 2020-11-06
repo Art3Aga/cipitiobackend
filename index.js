@@ -49,6 +49,7 @@ app.use( '/api/login', require('./rutas/autentificacion') );
 app.use( '/api/usuarios', require('./rutas/usuarios') );
 app.use( '/api/menus', require('./rutas/menus') );
 app.use( '/api/clientes', require('./rutas/clientes') );
+app.use( '/api/orden_pedido', require('./rutas/orden_pedido') );
 
 
 

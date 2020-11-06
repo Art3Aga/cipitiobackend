@@ -78,7 +78,7 @@ const updateMenu = async (req = request, res = response) => {
 
             let menu = new Menu(req.body);
 
-            let newMenu = await menu.updateOne({ id_menu }, { nombre, descripcion, precio, imagen });
+            let newMenu = await menu.updateOne({ id_menu }, { nombre, descripcion, precio, imagen }); //UPDATE Menus SET nombre, descripcion, ... = ? WHERE id_menu
 
             if(newMenu) {
 
