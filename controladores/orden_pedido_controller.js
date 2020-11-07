@@ -1,6 +1,7 @@
 const { request, response } = require('express');
 const Orden = require('../modelos/orden_model');
 const Pedido = require('../modelos/pedido_model');
+const { io } = require('../index');
 
 
 const listaOrdenes = async (req = request, res = response) => {
@@ -130,12 +131,9 @@ const nuevoPedido = async (req = request, res = response) => {
                 let orden = await Orden.findOne({ id_orden }); // SELECT * FROM Ordenes WHERE id_orden
                 let total = Number(orden['total']);
 
-                //console.log("TOTAL AL PRINCIPIO " + total);
-                //console.log("SUBTOTAL " + subtotalTemp);
-
                 total = total + subtotalTemp; // Calcular el total de la Orden en base al subtotal de cada pedido
-                //console.log("TOTAL DESPUES " + total);
-                await Orden.updateOne({ id_orden }, { total}); // UPDATE Ordenes SET total = ? WHERE id_orden
+
+                await Orden.updateOne({ id_orden }, { total }); // UPDATE Ordenes SET total = ? WHERE id_orden
 
                 res.json({
                     ok: true,
