@@ -73,7 +73,7 @@ const nuevaOrden = async (req = request, res = response) => {
 
     try {
 
-        const { id_cliente } = req.body;
+        const { id_cliente, total } = req.body;
 
         if(id_cliente) {
 
@@ -126,14 +126,11 @@ const nuevoPedido = async (req = request, res = response) => {
 
             if(newPedido) {
 
-                let subtotalTemp = Number(subtotal);
-
+                /*let subtotalTemp = Number(subtotal);
                 let orden = await Orden.findOne({ id_orden }); // SELECT * FROM Ordenes WHERE id_orden
                 let total = Number(orden['total']);
-
                 total = total + subtotalTemp; // Calcular el total de la Orden en base al subtotal de cada pedido
-
-                await Orden.updateOne({ id_orden }, { total }); // UPDATE Ordenes SET total = ? WHERE id_orden
+                await Orden.updateOne({ id_orden }, { total }); // UPDATE Ordenes SET total = ? WHERE id_orden*/
 
                 res.json({
                     ok: true,

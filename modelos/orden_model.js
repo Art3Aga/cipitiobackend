@@ -16,7 +16,7 @@ const OrdenSchema = Schema({
     },
     total: {
         type: Number,
-        default: 0.0
+        required: true
     },
     fecha: {
         type: String,
