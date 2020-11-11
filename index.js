@@ -17,8 +17,6 @@ const app = express();
 //Lectura y parseo del Body
 //app.use( express.json() );
 
-app.use( cors({ origin: true, credentials: true }) );
-
 // Node Server
 const server = require('http').createServer(app);
 module.exports.io = require('socket.io')(server);
@@ -31,7 +29,7 @@ require('./sockets/socket');
 // Path público
 const publicPath = path.resolve( __dirname, 'public' );
 app.use( express.static( publicPath ) );
-
+app.use( cors({ origin: true, credentials: true }) );
 
 //Body Parser
 app.use(bodyParser.urlencoded({extended: true}));

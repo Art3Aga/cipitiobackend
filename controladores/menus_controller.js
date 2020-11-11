@@ -23,6 +23,27 @@ const listaMenus = async (req = request, res = response) => {
 
 }
 
+const menuPromoByID = async (req = request, res = response) => {
+
+    try {
+
+        const { id_menu_promo } = req.params;
+        
+        let menu = await Menu.findOne({ id_menu: id_menu_promo });
+
+        res.json({
+            menu
+        });
+
+    } catch (error) {
+        res.json({
+            ok: false,
+            mensaje: 'Error'
+        });
+    }
+
+}
+
 
 const nuevoMenu = async (req = request, res = response) => {
 
@@ -198,6 +219,7 @@ const crearMenu = async ({nombre, descripcion, precio, imagen}) => {
 
 module.exports = {
     listaMenus,
+    menuPromoByID,
     nuevoMenu,
     updateMenu,
     deleteMenu

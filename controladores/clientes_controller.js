@@ -26,6 +26,28 @@ const listaClientes = async (req = request, res = response) => {
 
 }
 
+const clienteByID = async (req = request, res = response) => {
+
+    try {
+
+        const { id_cliente } = req.params;
+        
+        let cliente = await Cliente.findOne({ id_cliente });
+
+        res.json({
+            ok: true,
+            cliente
+        });
+
+    } catch (error) {
+        res.json({
+            ok: false,
+            mensaje: 'Error'
+        });
+    }
+
+}
+
 
 const loginCliente = async (req = request, res = response) => {
 
@@ -196,5 +218,6 @@ module.exports = {
     nuevoCliente,
     loginCliente,
     nuevaDireccion,
-    direccionesByCliente
+    direccionesByCliente,
+    clienteByID
 }

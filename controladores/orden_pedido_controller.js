@@ -1,6 +1,7 @@
 const { request, response } = require('express');
 const Orden = require('../modelos/orden_model');
 const Pedido = require('../modelos/pedido_model');
+const Menu = require('../modelos/menu_model');
 const { io } = require('../index');
 
 
@@ -57,6 +58,76 @@ const listaPedidosByCliente = async (req = request, res = response) => {
         res.json({
             ok: true,
             pedidos
+        });
+
+    } catch (error) {
+        res.json({
+            ok: false,
+            mensaje: 'Error'
+        });
+    }
+
+}
+
+
+const listaPedidosByOrden = async (req = request, res = response) => {
+
+    try {
+
+        const { id_orden } = req.params;
+        
+        let pedidos = await Pedido.find({ id_orden });
+
+        res.json({
+            ok: true,
+            pedidos
+        });
+
+    } catch (error) {
+        res.json({
+            ok: false,
+            mensaje: 'Error'
+        });
+    }
+
+}
+
+
+const pedidoByID = async (req = request, res = response) => {
+
+    try {
+
+        const { id_pedido } = req.params;
+        
+        //let pedido = await Pedido.find({}).where('id_pedido').gte(id_pedido).exec();
+        let pedido = await Pedido.findOne({ id_pedido });
+
+        res.json({
+            ok: true,
+            pedido
+        });
+
+    } catch (error) {
+        res.json({
+            ok: false,
+            mensaje: 'Error'
+        });
+    }
+
+}
+
+
+const menusPromosByID = async (req = request, res = response) => {
+
+    try {
+
+        const { id_menu } = req.params;
+        
+        let menu = await Menu.find({ id_menu });
+
+        res.json({
+            ok: true,
+            menu
         });
 
     } catch (error) {
@@ -166,6 +237,8 @@ module.exports = {
     listaOrdenes,
     listaPedidos,
     listaPedidosByCliente,
+    listaPedidosByOrden,
     nuevoPedido,
-    nuevaOrden
+    nuevaOrden,
+    pedidoByID
 }
