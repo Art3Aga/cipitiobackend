@@ -24,6 +24,27 @@ const listaRepartidores = async (req = request, res = response) => {
 }
 
 
+const listaUsuarios = async (req = request, res = response) => {
+
+    try {
+        
+        let usuarios = await Usuario.find({ });
+
+        res.json({
+            ok: true,
+            usuarios
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            ok: false,
+            mensaje: error
+        });
+    }
+
+}
+
+
 const nuevoRepartidor = async (req = request, res = response) => {
 
     try {
@@ -108,5 +129,6 @@ const crearRepartidor = async ({nombre, clave, telefono, color}) => {
 
 module.exports = {
     listaRepartidores,
+    listaUsuarios,
     nuevoRepartidor
 }

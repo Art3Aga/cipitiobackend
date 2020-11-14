@@ -10,14 +10,16 @@ const login = async (req = request, res = response) => {
 
     try {
 
-        if(req.body.usuario && req.body.clave) {
+        if(req.body.nombre && req.body.clave) {
+
+            req.body.clave = md5(req.body.clave);
             
-            let usuario = await logueadoUser(req.body);
+            let usuario = await Usuario.findOne({ nombre: req.body.nombre, clave: req.body.clave });
             
             if(usuario) {
                 res.json({
                     ok: true,
-                    data: usuario,
+                    usuario
                 });
             }
             else {
@@ -38,7 +40,7 @@ const login = async (req = request, res = response) => {
     } catch (error) {
         res.status(500).json({
             ok: false,
-            mensaje: 'Error'
+            mensaje: error
         });
     }
     
