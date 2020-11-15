@@ -65,7 +65,7 @@ const nuevoRepartidor = async (req = request, res = response) => {
             else {
                 res.json({
                     ok: false,
-                    data: 'Error al Registrar Repartidor!'
+                    error: 'Error al Registrar Repartidor!'
                 });
             }
             return;
@@ -74,13 +74,13 @@ const nuevoRepartidor = async (req = request, res = response) => {
 
         res.json({
             ok: false,
-            data: 'Faltan Datos'
+            error: 'Faltan Datos'
         });
 
     } catch (error) {
         res.json({
             ok: false,
-            mensaje: error
+            error
         });
     }
 
