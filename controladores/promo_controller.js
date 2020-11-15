@@ -155,47 +155,6 @@ const deletePromo = async (req = request, res = response) => {
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*const menus = async () => {
-    
-    return new Promise((resolve, reject) => {
-        connection.query('SELECT * FROM menus', (error, data) => {
-            if(error) reject(error);
-            resolve(data);
-        });
-    });
-}
-
-
-
-const crearMenu = async ({nombre, descripcion, precio, imagen}) => {
-    
-    return new Promise((resolve, reject) => {
-        connection.query('INSERT INTO menus (nombre, descripcion, precio, imagen) VALUES (?, ?, ?, ?)', [nombre, descripcion, precio, imagen], (error, data) => {
-            if(error) reject(error);
-            resolve(`${nombre} Registrado Correctamente al Menu!`);
-        });
-    });
-}*/
-
-
-
 module.exports = {
     listaPromo,
     nuevoPromo,
