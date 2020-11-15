@@ -12,7 +12,7 @@ router.get('/cliente/:id_cliente', clienteByID);
 router.post('/nuevo_cliente', nuevoCliente);
 router.post('/login_cliente', loginCliente);
 router.post('/nueva_direccion', nuevaDireccion);
-router.post('/update_telefono', updatetelefono);
+router.post('/actualizar_telefono', updatetelefono);
 
 
 module.exports = router;
