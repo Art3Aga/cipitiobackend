@@ -26,6 +26,40 @@ const listaClientes = async (req = request, res = response) => {
 
 }
 
+const updatetelefono = async (req = request, res = response) => {
+
+    try {
+
+        if(req.body.id_cliente && req.body.telefono) {
+
+            //req.body.clave = md5(req.body.clave);
+
+                var myquery = { id_cliente: req.body.id_cliente};
+                var newvalues = { $set: { telefono: req.body.telefono } };
+                await Cliente.updateOne(myquery,newvalues);
+                let client = await Cliente.findOne({ id_cliente: req.body.id_cliente }); 
+                res.json({
+                    ok: true,
+                    cliente: client
+                });
+            
+            return;
+
+        }
+        res.json({
+            ok: false,
+            data: 'Faltan Datos'
+        });
+
+    } catch (error) {
+        res.json({
+            ok: false,
+            mensaje: error
+        });
+    }
+
+}
+
 const clienteByID = async (req = request, res = response) => {
 
     try {
@@ -219,5 +253,6 @@ module.exports = {
     loginCliente,
     nuevaDireccion,
     direccionesByCliente,
-    clienteByID
+    clienteByID,
+    updatetelefono
 }
