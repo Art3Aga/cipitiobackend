@@ -26,6 +26,54 @@ const listaClientes = async (req = request, res = response) => {
 
 }
 
+const updatecontra = async (req = request, res = response) => {
+
+    try {
+        
+
+        if(req.body.id_cliente && req.body.clave && req.body.clave_nueva) {
+
+            req.body.clave = md5(req.body.clave);
+
+            const { id_cliente , clave } = req.body;
+
+            let cliente = await Cliente.findOne({ id_cliente, clave }); // Busca solo un item en la coleccion Clientes WHERE email = body_del_post AND clave = body_del_post
+
+            if(cliente) {
+  
+                var myquery = { id_cliente: req.body.id_cliente};
+                var newvalues = { $set: { clave: md5(req.body.clave_nueva) } };
+                await Cliente.updateOne(myquery,newvalues);
+                let client = await Cliente.findOne({id_cliente});            
+                res.json({
+                    ok: true,
+                    client
+                });
+            }
+            else {
+
+                res.json({
+                    ok: false,
+                    data: 'ID o Clave Incorrectos!'
+                });
+            }
+            return;
+        }
+        res.json({
+            ok: false,
+            data: 'Faltan Datos'
+        });
+
+
+    } catch (error) {
+        res.json({
+            ok: false,
+            mensaje: error
+        });
+    }
+    
+}
+
 const updatetelefono = async (req = request, res = response) => {
 
     try {
@@ -254,5 +302,6 @@ module.exports = {
     nuevaDireccion,
     direccionesByCliente,
     clienteByID,
-    updatetelefono
+    updatetelefono,
+    updatecontra
 }
