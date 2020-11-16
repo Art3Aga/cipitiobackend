@@ -1,4 +1,4 @@
-//PATH = api/menus
+//PATH = api/promo
 
 const { Router } = require('express');
 const { listaPromo, nuevoPromo, updatePromo, deletePromo } = require('../controladores/promo_controller');

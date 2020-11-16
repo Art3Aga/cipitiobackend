@@ -28,9 +28,9 @@ const nuevoPromo = async (req = request, res = response) => {
 
     try {
 
-        const { menus, titulo, tipo, descripcion, precio, descuento, imagen } = req.body;
+        const { menus , titulo, tipo, descripcion, precio, descuento, imagen } = req.body;
 
-        if(menus, titulo, tipo, descripcion, precio, descuento, imagen) {
+        if(menus && titulo && tipo && descripcion && precio && descuento && imagen) {
 
             let promo = new Promo(req.body);
 

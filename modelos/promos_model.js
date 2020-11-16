@@ -8,7 +8,7 @@ const PromoSchema = Schema({
         default: new Date().valueOf()
     },
     menus: {
-        type: String,
+        type: Array,
         required: true
     },
     titulo: {
