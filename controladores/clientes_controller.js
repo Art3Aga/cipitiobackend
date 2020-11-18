@@ -85,7 +85,7 @@ const updatetelefono = async (req = request, res = response) => {
                 var myquery = { id_cliente: req.body.id_cliente};
                 var newvalues = { $set: { telefono: req.body.telefono } };
                 await Cliente.updateOne(myquery,newvalues);
-                let client = await Cliente.findOne({ id_cliente: req.body.id_cliente }); 
+                let client = await Cliente.finOne({ id_cliente: req.body.id_cliente }); 
                 res.json({
                     ok: true,
                     cliente: client
@@ -126,6 +126,22 @@ const clienteByID = async (req = request, res = response) => {
             ok: false,
             mensaje: 'Error'
         });
+    }
+
+}
+
+const ClienteByIDSocket = async (id_cliente) => {
+
+    try {
+        
+        let cliente = await Cliente.findOne({ id_cliente });
+
+        return cliente;
+
+    } catch (error) {
+
+        return null;
+        
     }
 
 }
@@ -303,5 +319,6 @@ module.exports = {
     direccionesByCliente,
     clienteByID,
     updatetelefono,
-    updatecontra
+    updatecontra,
+    ClienteByIDSocket
 }

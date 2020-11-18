@@ -2,6 +2,7 @@ const { request, response } = require('express');
 const Orden = require('../modelos/orden_model');
 const Pedido = require('../modelos/pedido_model');
 const Menu = require('../modelos/menu_model');
+const RepartidorOrden = require('../modelos/repartidor_orden_model');
 const { io } = require('../index');
 
 
@@ -99,12 +100,33 @@ const pedidoByID = async (req = request, res = response) => {
 
         const { id_pedido } = req.params;
         
-        //let pedido = await Pedido.find({}).where('id_pedido').gte(id_pedido).exec();
         let pedido = await Pedido.findOne({ id_pedido });
 
         res.json({
             ok: true,
             pedido
+        });
+
+    } catch (error) {
+        res.json({
+            ok: false,
+            mensaje: 'Error'
+        });
+    }
+
+}
+
+const ordenByID = async (req = request, res = response) => {
+
+    try {
+
+        const { id_orden } = req.params;
+        
+        let orden = await Orden.findOne({ id_orden });
+
+        res.json({
+            ok: true,
+            orden
         });
 
     } catch (error) {
@@ -232,6 +254,94 @@ const nuevoPedido = async (req = request, res = response) => {
 
 }
 
+const nuevoRepartidorOrden = async (req = request, res = response) => {
+    try {
+
+        const { id_repartidor, id_orden } = req.body;
+
+        if(id_repartidor && id_orden) {
+
+            let repartidorOrden = new RepartidorOrden(req.body);
+
+            let newRepartidorOrden = await repartidorOrden.save();
+
+            if(newRepartidorOrden) { 
+                res.json({
+                    ok: true,
+                    orden_repartidor: newRepartidorOrden
+                });
+            }
+            else {
+                res.json({
+                    ok: false,
+                    error: 'No se pudo registrar la orden_repartidor'
+                });
+            }
+            return;
+        }
+
+        res.json({
+            ok: false,
+            error: 'Faltan Datos'
+        })
+        
+    } catch (error) {
+        res.json({
+            ok: false,
+            mensaje: error
+        });
+    }
+}
+
+
+
+const GetRepartidorOrdenByOrden = async (req = request, res = response) => {
+
+    try {
+
+        const { id_orden } = req.params;
+
+        let repartidor_orden = await RepartidorOrden.findOne({ id_orden });
+
+        res.json({
+            ok: true,
+            repartidor_orden
+        });
+        
+    } catch (error) {
+        res.json({
+            ok: false,
+            mensaje: error
+        });
+    }
+}
+
+
+
+const updateOrden = async (req = request, res = response) => {
+
+    try {
+
+        const { id_orden } = req.params;
+
+        let newOrden = await Orden.findOne({ id_orden });
+        newOrden.estado = 'En Camino';
+        await newOrden.save();
+
+        res.json({
+            ok: true,
+            orden: newOrden
+        });
+        
+    } catch (error) {
+        res.json({
+            ok: false,
+            mensaje: error
+        });
+    }
+
+}
+
 
 module.exports = {
     listaOrdenes,
@@ -240,5 +350,9 @@ module.exports = {
     listaPedidosByOrden,
     nuevoPedido,
     nuevaOrden,
-    pedidoByID
+    pedidoByID,
+    nuevoRepartidorOrden,
+    GetRepartidorOrdenByOrden,
+    ordenByID,
+    updateOrden
 }

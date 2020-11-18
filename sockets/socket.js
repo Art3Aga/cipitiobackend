@@ -1,12 +1,12 @@
 const { io } = require('../index');
-//const { listaOrdenes, nuevaOrden } = require('../controladores/orden_pedido_controller');
+const { ClienteByIDSocket } = require('../controladores/clientes_controller');
 const { Router } = require('express');
 
 const router = Router();
 
 
 // Eventos de Sockets
-io.on('connection', client => {
+io.on('connection', async (client) => {
 
     console.log('Cliente conectado');
 
@@ -30,8 +30,28 @@ io.on('connection', client => {
 
 
     //Este evento solo sirve para el administrador-cocinero, para refrescar el repartidor asignado en ese momento a la orden terminada
-    client.on('get-repartidor-orden-admin', (repartidor) => {
-        io.emit('get-repartidor-orden-admin', repartidor);
+    client.on('get-repartidor-orden-admin', (data) => {
+        io.emit('get-repartidor-orden-admin', data);
+    });
+
+    if(client.handshake.headers['id_usuario']) {
+
+        const cliente = await ClienteByIDSocket(client.handshake.headers['id_usuario']);
+
+        if(!cliente) return client.disconnect(); // verificar en la coleccion de usuarios
+
+        //Ingresar al usuario a una sala en especifica, que solo estará él
+        client.join(cliente.id_cliente);
+
+    }
+
+    //Escuchar del admin el evento para enviarselo al cliente en particular (el repartidor de su orden, etc)
+    client.on('repartidor-orden', (data) => {
+        console.log(data);
+        //data.id_cliente, data.id_admin, data.repartidor, data.orden
+
+        //Enviar el mensaje al usuario en particular
+        io.to(data.id_cliente).emit('repartidor-orden', data);
     });
 
     //console.log(client.handshake.headers);
